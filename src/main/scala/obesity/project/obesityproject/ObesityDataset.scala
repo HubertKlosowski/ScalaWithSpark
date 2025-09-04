@@ -60,9 +60,9 @@ class ObesityDataset(private var dataFrame: DataFrame) {
     dataFrame.describe(columnName)
   }
 
-  def countNotNullInColumn(columnName: String): Double = dataFrame.filter(col(columnName).isNotNull).count()
+  def countNotNullInColumn(columnName: String): Long = dataFrame.filter(col(columnName).isNotNull).count()
 
-  def countNullInColumn(columnName: String): Double = dataFrame.filter(col(columnName).isNotNull).count()
+  def countNullInColumn(columnName: String): Long = dataFrame.filter(col(columnName).isNull).count()
 
   def getDataFrame: DataFrame = dataFrame
 

@@ -1,4 +1,4 @@
-package obesity.project.obesityProject
+package obesity.project.obesityproject
 
 import obesity.project.obesityproject.ObesityDataset
 import org.apache.spark.sql.types._
