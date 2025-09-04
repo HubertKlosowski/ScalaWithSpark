@@ -2,7 +2,7 @@ package obesity.project.obesityProject
 
 import obesity.project.obesityproject.ObesityDataset
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, SparkSession, AnalysisException}
 
 /**
   * Use this to test the app locally, from sbt:
@@ -42,8 +42,18 @@ object Runner {
     ))
     val dataFrame: DataFrame = sp.read.option("header", true).schema(customSchema).csv(inputFile)
     val ob: ObesityDataset = new ObesityDataset(dataFrame)
-    ob.getStatisticFromGroupBy("count", "NObeyesdad").write.csv(outputFile)
     ob.addBMIColumn()
-    println(ob.toString)
+    ob.addAgeGroups(
+      Seq("Child" -> (0, 15), "Teen" -> (15, 19), "Adult" -> (19, 45), "Old" -> (45, 100))
+    )
+
+    try
+      println(ob.getStatisticFromGroupBy("min", "AgeGroups", "Age"))
+    catch {
+      case analysisException: AnalysisException => println("BŁĄD!! Dla wybranej kolumny nie można obliczyć podanej statystyki.")
+    }
+
+    println(ob.getDataFrame.show(5))
+
   }
 }

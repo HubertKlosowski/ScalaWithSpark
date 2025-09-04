@@ -150,3 +150,5 @@ docs/_build/
 .env
 *~
 
+output
+
